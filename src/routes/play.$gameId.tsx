@@ -17,9 +17,9 @@ function PlayRoute() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-[100dvh] w-full items-center justify-center bg-[#faf6ee]">
-          <div className="h-2 w-24 overflow-hidden rounded-full bg-black/5">
-            <div className="h-full w-1/2 animate-pulse rounded-full bg-foreground/20" />
+        <div className="flex h-[100dvh] w-full items-center justify-center bg-app">
+          <div className="h-2 w-24 overflow-hidden rounded-full bg-white/10">
+            <div className="h-full w-1/2 animate-pulse rounded-full bg-fuchsia-400" />
           </div>
         </div>
       }

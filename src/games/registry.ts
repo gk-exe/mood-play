@@ -23,8 +23,8 @@ export const GAMES: readonly GameMeta[] = [
   {
     id: "bubble-shooter",
     title: "Bubble Shooter",
-    tagline: "Pop, breathe, repeat.",
-    mood: "relax",
+    tagline: "Pop, chain, ride the streak.",
+    mood: "chill-zone",
     Component: lazy(() => import("./bubble-shooter")),
   },
 ] as const;
