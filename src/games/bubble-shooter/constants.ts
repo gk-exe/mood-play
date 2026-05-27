@@ -2,7 +2,7 @@ import type { BubbleColor, GameMode } from "./types";
 
 /** Logical (CSS pixel) canvas dimensions. */
 export const CANVAS_WIDTH = 360;
-export const CANVAS_HEIGHT = 560;
+export const CANVAS_HEIGHT = 600;
 
 export const BUBBLE_RADIUS = 18;
 export const BUBBLE_DIAMETER = BUBBLE_RADIUS * 2;
@@ -10,77 +10,165 @@ export const ROW_HEIGHT = BUBBLE_RADIUS * Math.sqrt(3);
 
 export const GRID_COLS = 9;
 export const INITIAL_ROWS = 5;
-export const MAX_ROWS = 12;
+export const MAX_ROWS = 13;
 
 export const GRID_OFFSET_X = (CANVAS_WIDTH - GRID_COLS * BUBBLE_DIAMETER) / 2 + BUBBLE_RADIUS;
-export const GRID_OFFSET_Y = BUBBLE_RADIUS + 8;
+export const GRID_OFFSET_Y = BUBBLE_RADIUS + 12;
 
-export const SHOOTER_Y = CANVAS_HEIGHT - 48;
+export const SHOOTER_Y = CANVAS_HEIGHT - 56;
 export const SHOOTER_X = CANVAS_WIDTH / 2;
 
 export const MIN_MATCH = 3;
 
-/** Soft palette. Match-count sweet spot at 4–5 colors. */
-export const COLOR_MAP: Record<BubbleColor, { fill: string; rim: string; shine: string }> = {
-  rose: { fill: "#f4a8a0", rim: "#d98c83", shine: "#fcd9d3" },
-  peach: { fill: "#f5c79a", rim: "#dba872", shine: "#fde4c8" },
-  sand: { fill: "#ead9a8", rim: "#c9b67f", shine: "#f6ecca" },
-  sage: { fill: "#a7cdb0", rim: "#7fae8b", shine: "#d2e7d6" },
-  sky: { fill: "#a8c5e2", rim: "#7fa3c5", shine: "#d3e1f0" },
+/**
+ * Neon arcade palette. Each color has a saturated fill, a slightly darker rim,
+ * a bright inner shine, and a glow color used for soft outer halos.
+ */
+export const COLOR_MAP: Record<
+  BubbleColor,
+  { fill: string; rim: string; shine: string; glow: string }
+> = {
+  pink: { fill: "#ff5cad", rim: "#c93f87", shine: "#ffd3ec", glow: "#ff5cad" },
+  orange: { fill: "#ff8a3d", rim: "#cc6620", shine: "#ffd9bb", glow: "#ffa861" },
+  yellow: { fill: "#ffd83d", rim: "#caa31a", shine: "#fff3b8", glow: "#ffe871" },
+  lime: { fill: "#9aff5c", rim: "#5fc227", shine: "#dcffc1", glow: "#a8ff6f" },
+  mint: { fill: "#5cffc8", rim: "#28c294", shine: "#c4ffe9", glow: "#5cffc8" },
+  cyan: { fill: "#5cd6ff", rim: "#2a9ecc", shine: "#c4eeff", glow: "#5cd6ff" },
+  violet: { fill: "#b15cff", rim: "#7d2dcc", shine: "#e1c4ff", glow: "#c47bff" },
+  coral: { fill: "#ff5c6e", rim: "#cc2f43", shine: "#ffc4cb", glow: "#ff7383" },
 };
 
-export const ALL_COLORS: readonly BubbleColor[] = ["rose", "sage", "sky", "peach", "sand"] as const;
+/** Master pool — modes sample subsets from this. */
+export const ALL_COLORS: readonly BubbleColor[] = [
+  "pink",
+  "cyan",
+  "yellow",
+  "lime",
+  "violet",
+  "orange",
+  "mint",
+  "coral",
+] as const;
+
+export interface ModeTheme {
+  /** Top-of-canvas backdrop color (hex). */
+  bgTop: string;
+  /** Bottom-of-canvas backdrop color (hex). */
+  bgBottom: string;
+  /** Accent used for glows, HUD chips, mode card. */
+  accent: string;
+  /** Secondary accent for gradients. */
+  accent2: string;
+  /** Tailwind gradient classes for mode card. */
+  cardGradient: string;
+  /** Icon name from lucide-react for mode card. */
+  icon: "Waves" | "Zap" | "Flame" | "Sparkles";
+}
 
 export interface ModeConfig {
   label: string;
   blurb: string;
-  baseColors: number; // colors used at level 1
+  baseColors: number;
   maxColors: number;
+  /** Subset of ALL_COLORS this mode draws from. */
+  palette: readonly BubbleColor[];
   bubbleSpeed: number;
   /** Shots between pressure (row drops). 0 = never. */
   pressureEvery: number;
-  /** Decrease pressureEvery by this per level (min 3). */
   pressureRamp: number;
+  theme: ModeTheme;
 }
 
 export const MODES: Record<GameMode, ModeConfig> = {
-  relax: {
-    label: "Relax",
-    blurb: "No pressure. Just pop.",
+  "chill-pop": {
+    label: "Chill Pop",
+    blurb: "Slow lane. Pure pop.",
     baseColors: 3,
     maxColors: 4,
+    palette: ["cyan", "mint", "violet", "pink"],
     bubbleSpeed: 14,
     pressureEvery: 0,
     pressureRamp: 0,
+    theme: {
+      bgTop: "#0a1a2e",
+      bgBottom: "#06283d",
+      accent: "#5cd6ff",
+      accent2: "#5cffc8",
+      cardGradient: "from-cyan-500 via-sky-600 to-teal-500",
+      icon: "Waves",
+    },
   },
-  classic: {
-    label: "Classic",
-    blurb: "Balanced rhythm.",
+  "combo-rush": {
+    label: "Combo Rush",
+    blurb: "Chain it. Glow harder.",
     baseColors: 4,
     maxColors: 5,
+    palette: ["pink", "violet", "orange", "yellow", "cyan"],
     bubbleSpeed: 16,
     pressureEvery: 10,
     pressureRamp: 1,
+    theme: {
+      bgTop: "#1a0a2e",
+      bgBottom: "#2a0a3a",
+      accent: "#e879f9",
+      accent2: "#ff8a3d",
+      cardGradient: "from-fuchsia-500 via-purple-600 to-pink-500",
+      icon: "Sparkles",
+    },
   },
-  challenge: {
-    label: "Challenge",
-    blurb: "Faster, denser.",
+  "neon-burst": {
+    label: "Neon Burst",
+    blurb: "Fast, loud, electric.",
     baseColors: 5,
-    maxColors: 5,
-    bubbleSpeed: 19,
-    pressureEvery: 6,
+    maxColors: 6,
+    palette: ["lime", "cyan", "yellow", "pink", "violet", "mint"],
+    bubbleSpeed: 18,
+    pressureEvery: 7,
     pressureRamp: 1,
+    theme: {
+      bgTop: "#0a1f10",
+      bgBottom: "#0a2b1a",
+      accent: "#9aff5c",
+      accent2: "#5cd6ff",
+      cardGradient: "from-lime-400 via-emerald-500 to-cyan-500",
+      icon: "Zap",
+    },
+  },
+  "zen-blast": {
+    label: "Zen Blast",
+    blurb: "Endless. Smooth. Yours.",
+    baseColors: 3,
+    maxColors: 4,
+    palette: ["violet", "pink", "cyan", "mint"],
+    bubbleSpeed: 13,
+    pressureEvery: 0,
+    pressureRamp: 0,
+    theme: {
+      bgTop: "#0a0a24",
+      bgBottom: "#160a2e",
+      accent: "#b15cff",
+      accent2: "#5cd6ff",
+      cardGradient: "from-indigo-500 via-violet-600 to-fuchsia-500",
+      icon: "Flame",
+    },
   },
 };
+
+export const MODE_ORDER: GameMode[] = [
+  "chill-pop",
+  "combo-rush",
+  "neon-burst",
+  "zen-blast",
+];
 
 export function colorPoolForLevel(mode: GameMode, level: number): readonly BubbleColor[] {
   const cfg = MODES[mode];
   const n = Math.min(cfg.maxColors, cfg.baseColors + Math.floor((level - 1) / 2));
-  return ALL_COLORS.slice(0, n);
+  return cfg.palette.slice(0, n);
 }
 
 export function pickFrom<T>(pool: readonly T[]): T {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-export const BEST_SCORE_KEY = "bubble-shooter:best";
+export const BEST_SCORE_KEY = "bubble-shooter:best:v2";

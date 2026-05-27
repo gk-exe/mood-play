@@ -2,9 +2,17 @@
  * Bubble Shooter — domain types.
  */
 
-export type BubbleColor = "rose" | "peach" | "sand" | "sage" | "sky";
+export type BubbleColor =
+  | "pink"
+  | "orange"
+  | "yellow"
+  | "lime"
+  | "mint"
+  | "cyan"
+  | "violet"
+  | "coral";
 
-export type GameMode = "relax" | "classic" | "challenge";
+export type GameMode = "chill-pop" | "combo-rush" | "neon-burst" | "zen-blast";
 
 export interface Bubble {
   row: number;
@@ -43,6 +51,15 @@ export interface Particle {
   size: number;
 }
 
+export interface ScorePop {
+  x: number;
+  y: number;
+  text: string;
+  life: number; // 1 → 0
+  color: string;
+  big?: boolean;
+}
+
 export type GamePhase = "aiming" | "firing" | "resolving" | "gameover";
 
 export interface GameState {
@@ -52,10 +69,15 @@ export interface GameState {
   moving: MovingBubble | null;
   falling: FallingBubble[];
   particles: Particle[];
+  scorePops: ScorePop[];
   phase: GamePhase;
   score: number;
   level: number;
   shotsSincePressure: number;
   shake: number; // current shake intensity, decays
   aimDragging: boolean;
+  combo: number; // consecutive scoring shots
+  comboFlash: number; // 0..1 decay, paint combo glow
+  bestCombo: number;
+  pops: number; // total bubbles popped this run
 }
