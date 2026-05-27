@@ -81,8 +81,8 @@ export interface ModeConfig {
 
 export const MODES: Record<GameMode, ModeConfig> = {
   "chill-pop": {
-    label: "Chill Pop",
-    blurb: "Slow lane. Pure pop.",
+    label: "Easy Pop",
+    blurb: "Take it slow.",
     baseColors: 3,
     maxColors: 4,
     palette: ["cyan", "mint", "violet", "pink"],
@@ -99,8 +99,8 @@ export const MODES: Record<GameMode, ModeConfig> = {
     },
   },
   "combo-rush": {
-    label: "Combo Rush",
-    blurb: "Chain it. Glow harder.",
+    label: "Chain Blast",
+    blurb: "Bigger chains, bigger pop.",
     baseColors: 4,
     maxColors: 5,
     palette: ["pink", "violet", "orange", "yellow", "cyan"],
@@ -117,8 +117,8 @@ export const MODES: Record<GameMode, ModeConfig> = {
     },
   },
   "neon-burst": {
-    label: "Neon Burst",
-    blurb: "Fast, loud, electric.",
+    label: "Pop Rush",
+    blurb: "Fast hands win.",
     baseColors: 5,
     maxColors: 6,
     palette: ["lime", "cyan", "yellow", "pink", "violet", "mint"],
@@ -135,8 +135,8 @@ export const MODES: Record<GameMode, ModeConfig> = {
     },
   },
   "zen-blast": {
-    label: "Zen Blast",
-    blurb: "Endless. Smooth. Yours.",
+    label: "Endless Pop",
+    blurb: "No end. No pressure.",
     baseColors: 3,
     maxColors: 4,
     palette: ["violet", "pink", "cyan", "mint"],
