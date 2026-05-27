@@ -1,26 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AppShell } from "@/components/AppShell";
+import { MOODS } from "@/features/moods/data";
+import { MoodCard } from "@/features/moods/MoodCard";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+    <AppShell>
+      <header className="px-6 pt-10 pb-6">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+          How do you feel?
+        </p>
+        <h1 className="mt-1 text-3xl font-medium tracking-tight text-foreground">
+          Pick a mood
+        </h1>
+      </header>
 
-function Index() {
-  return <PlaceholderIndex />;
+      <main className="flex-1 px-5 pb-10">
+        <div className="grid grid-cols-2 gap-4">
+          {MOODS.map((mood, i) => (
+            <MoodCard key={mood.id} mood={mood} index={i} />
+          ))}
+        </div>
+      </main>
+    </AppShell>
+  );
 }

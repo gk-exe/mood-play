@@ -71,15 +71,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      {
+        name: "viewport",
+        content:
+          "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1",
+      },
+      { name: "theme-color", content: "#f7f4ec" },
+      { title: "Mood Hub — play how you feel" },
+      {
+        name: "description",
+        content:
+          "A calm mobile gaming hub. Pick a mood, tap, and instantly play.",
+      },
+      { property: "og:title", content: "Mood Hub" },
+      {
+        property: "og:description",
+        content: "Pick a mood, tap, and instantly play.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {

@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MoodMoodIdRouteImport } from './routes/mood.$moodId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MoodMoodIdRoute = MoodMoodIdRouteImport.update({
+  id: '/mood/$moodId',
+  path: '/mood/$moodId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mood/$moodId': typeof MoodMoodIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mood/$moodId': typeof MoodMoodIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mood/$moodId': typeof MoodMoodIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/mood/$moodId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/mood/$moodId'
+  id: '__root__' | '/' | '/mood/$moodId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MoodMoodIdRoute: typeof MoodMoodIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mood/$moodId': {
+      id: '/mood/$moodId'
+      path: '/mood/$moodId'
+      fullPath: '/mood/$moodId'
+      preLoaderRoute: typeof MoodMoodIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MoodMoodIdRoute: MoodMoodIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
