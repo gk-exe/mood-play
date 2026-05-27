@@ -1,8 +1,8 @@
 import { BUBBLE_RADIUS, CANVAS_WIDTH } from "../constants";
-import type { Bubble, MovingBubble } from "../types";
-import { cellCenter } from "./grid";
+import type { Bubble, BubbleColor, MovingBubble } from "../types";
+import { cellCenter, cellKey, snapToGrid } from "./grid";
 
-const COLLISION_DIST = (BUBBLE_RADIUS * 2) * 0.92; // slight overlap = forgiving feel
+const COLLISION_DIST = BUBBLE_RADIUS * 2 * 0.92;
 const COLLISION_DIST_SQ = COLLISION_DIST * COLLISION_DIST;
 
 export interface StepResult {
@@ -10,12 +10,11 @@ export interface StepResult {
   hitTop: boolean;
 }
 
-/** Advance the moving bubble one frame, bouncing off side walls. */
+/** Advance one frame; bounce off side walls. Mutates `m`. */
 export function stepMoving(m: MovingBubble, grid: Map<string, Bubble>): StepResult {
   m.x += m.vx;
   m.y += m.vy;
 
-  // Side walls — bounce.
   if (m.x < BUBBLE_RADIUS) {
     m.x = BUBBLE_RADIUS;
     m.vx = Math.abs(m.vx);
@@ -24,12 +23,10 @@ export function stepMoving(m: MovingBubble, grid: Map<string, Bubble>): StepResu
     m.vx = -Math.abs(m.vx);
   }
 
-  // Top wall — counts as a hit so the bubble snaps to row 0.
   if (m.y <= BUBBLE_RADIUS) {
     return { hit: true, hitTop: true };
   }
 
-  // Collision with existing bubbles.
   for (const b of grid.values()) {
     if (b.popping !== undefined) continue;
     const c = cellCenter(b.row, b.col);
@@ -41,4 +38,52 @@ export function stepMoving(m: MovingBubble, grid: Map<string, Bubble>): StepResu
   }
 
   return { hit: false, hitTop: false };
+}
+
+export interface Trajectory {
+  /** Polyline (in canvas coords) of the projectile path. */
+  points: Array<{ x: number; y: number }>;
+  /** Predicted snap cell — exactly where a real shot lands. */
+  snap: { row: number; col: number; x: number; y: number } | null;
+}
+
+/**
+ * Simulate a shot using the SAME stepMoving + snapToGrid the live shot uses.
+ * Guarantees guide ↔ projectile parity.
+ */
+export function simulateTrajectory(
+  startX: number,
+  startY: number,
+  angle: number,
+  speed: number,
+  grid: Map<string, Bubble>,
+  maxSteps = 400,
+): Trajectory {
+  const m: MovingBubble = {
+    x: startX,
+    y: startY,
+    vx: Math.cos(angle) * speed,
+    vy: Math.sin(angle) * speed,
+    color: "rose" as BubbleColor,
+  };
+  const points: Array<{ x: number; y: number }> = [{ x: m.x, y: m.y }];
+  for (let i = 0; i < maxSteps; i++) {
+    const prevVx = Math.sign(m.vx);
+    const res = stepMoving(m, grid);
+    // If bounce happened, add the wall-contact vertex for crisp visual.
+    if (Math.sign(m.vx) !== prevVx) {
+      points.push({ x: m.x, y: m.y });
+    }
+    if (res.hit) {
+      points.push({ x: m.x, y: m.y });
+      const snap = snapToGrid(m.x, m.y, grid);
+      // Defensive: cell must be free; snapToGrid already ensures that.
+      if (grid.has(cellKey(snap.row, snap.col))) {
+        return { points, snap: null };
+      }
+      const c = cellCenter(snap.row, snap.col);
+      return { points, snap: { row: snap.row, col: snap.col, x: c.x, y: c.y } };
+    }
+  }
+  return { points, snap: null };
 }
