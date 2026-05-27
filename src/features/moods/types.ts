@@ -1,24 +1,37 @@
 /**
- * Mood domain types.
- * Kept tiny on purpose — extend only when a feature actually needs more.
+ * "Mood" is the internal name — the player-facing word is ENERGY STATE.
+ * Each state owns a full themed atmosphere (gradient + neon accent + glow).
+ *
+ * Add a new state = add an id here + an entry in data.ts. Nothing else changes.
  */
-export type MoodId = "relax" | "focus" | "thrill" | "satisfaction" | "quick-fun";
+export type MoodId =
+  | "chill-zone"
+  | "brain-melt"
+  | "blast-off"
+  | "zen-arcade"
+  | "pixel-panic";
 
 export interface Mood {
   id: MoodId;
-  /** Short word shown under the card. One word ideally. */
+  /** Punchy, game-like label. */
   label: string;
-  /** Used only by assistive tech / SEO, never as primary visual. */
-  description: string;
-  /** Tailwind gradient classes — drives the entire visual identity of the card. */
+  /** One short playful line shown on the card. */
+  tagline: string;
+  /** Background atmosphere — Tailwind gradient classes. */
   gradient: string;
-  /** Foreground tint used for the icon + label on the card. */
+  /** Foreground tint for icon + label. */
   foreground: string;
-  /** Lucide icon name (resolved in MoodCard to keep this file pure data). */
+  /** Neon accent hex used for glow, ring, particles. */
+  accent: string;
+  /** Lucide icon name (resolved in MoodCard). */
   icon:
     | "Waves"
     | "Brain"
-    | "Flame"
+    | "Rocket"
     | "Sparkles"
-    | "Zap";
+    | "Zap"
+    | "Flame"
+    | "Ghost"
+    | "Skull"
+    | "Gamepad2";
 }

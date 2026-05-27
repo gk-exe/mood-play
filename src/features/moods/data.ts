@@ -1,48 +1,53 @@
 import type { Mood } from "./types";
 
 /**
- * Single source of truth for moods.
- * Add a new mood = add an entry here. No other file needs to change.
+ * Single source of truth for ENERGY STATES.
+ * Each one has its own atmosphere — never reuse a palette across states.
  */
 export const MOODS: readonly Mood[] = [
   {
-    id: "relax",
-    label: "Relax",
-    description: "Calm, soft, gentle games to unwind.",
-    gradient: "from-[#bfe3d4] via-[#d8efe4] to-[#eaf6ef]",
-    foreground: "text-emerald-900/80",
+    id: "chill-zone",
+    label: "Chill Zone",
+    tagline: "Slow it down. Float a while.",
+    gradient: "from-[#0b3a5e] via-[#1467a4] to-[#22d3ee]",
+    foreground: "text-cyan-50",
+    accent: "#22d3ee",
     icon: "Waves",
   },
   {
-    id: "focus",
-    label: "Focus",
-    description: "Puzzles and logic to sharpen your mind.",
-    gradient: "from-[#c8d4f5] via-[#dde4f8] to-[#eef1fb]",
-    foreground: "text-indigo-900/80",
+    id: "brain-melt",
+    label: "Brain Melt",
+    tagline: "Puzzles that bite back.",
+    gradient: "from-[#3b2a00] via-[#a16207] to-[#facc15]",
+    foreground: "text-amber-50",
+    accent: "#facc15",
     icon: "Brain",
   },
   {
-    id: "thrill",
-    label: "Thrill",
-    description: "Fast, energetic, adrenaline-filled action.",
-    gradient: "from-[#f7c4b4] via-[#f8d4c4] to-[#fbe6dc]",
-    foreground: "text-rose-900/80",
-    icon: "Flame",
+    id: "blast-off",
+    label: "Blast Off",
+    tagline: "Adrenaline, served loud.",
+    gradient: "from-[#1a0040] via-[#6d28d9] to-[#e879f9]",
+    foreground: "text-fuchsia-50",
+    accent: "#e879f9",
+    icon: "Rocket",
   },
   {
-    id: "satisfaction",
-    label: "Satisfy",
-    description: "Sorting, slicing, satisfying tactile play.",
-    gradient: "from-[#e3d1f3] via-[#ecdef6] to-[#f4ecfb]",
-    foreground: "text-violet-900/80",
+    id: "zen-arcade",
+    label: "Zen Arcade",
+    tagline: "Satisfying. Tactile. Endless.",
+    gradient: "from-[#082f1f] via-[#0e7a4f] to-[#5eead4]",
+    foreground: "text-emerald-50",
+    accent: "#5eead4",
     icon: "Sparkles",
   },
   {
-    id: "quick-fun",
-    label: "Quick",
-    description: "Tiny bursts of instant fun.",
-    gradient: "from-[#fce5b0] via-[#fdeec7] to-[#fef6e0]",
-    foreground: "text-amber-900/80",
+    id: "pixel-panic",
+    label: "Pixel Panic",
+    tagline: "60 seconds of pure chaos.",
+    gradient: "from-[#3a0a0a] via-[#dc2626] to-[#fb923c]",
+    foreground: "text-orange-50",
+    accent: "#fb923c",
     icon: "Zap",
   },
 ] as const;
