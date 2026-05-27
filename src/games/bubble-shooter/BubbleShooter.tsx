@@ -175,27 +175,21 @@ function GameView({
         onChangeMode={onExit}
       />
 
-      {/* Entry intro overlay */}
+      {/* Entry intro — soft, brief, never explosive */}
       {!introDone && (
         <div
           className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center"
           style={{
-            background: `radial-gradient(60% 40% at 50% 50%, ${cfg.theme.bgTop}, ${cfg.theme.bgBottom})`,
-            animation: "fade-out 600ms ease forwards",
-            animationDelay: "150ms",
+            background: `radial-gradient(60% 40% at 50% 50%, ${cfg.theme.bgTop}f2, ${cfg.theme.bgBottom}f2)`,
+            animation: "fade-out 500ms ease forwards",
+            animationDelay: "200ms",
           }}
         >
           <div
-            className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/55"
-            style={{ animation: "fade-in 280ms ease both" }}
-          >
-            Entering
-          </div>
-          <div
-            className="mt-2 text-4xl font-bold tracking-tight text-white"
+            className="text-3xl font-bold tracking-tight text-white"
             style={{
-              animation: "scale-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both",
-              textShadow: `0 0 28px ${cfg.theme.accent}`,
+              animation: "fade-in 320ms ease both",
+              textShadow: `0 0 18px ${cfg.theme.accent}aa`,
             }}
           >
             {cfg.label}
