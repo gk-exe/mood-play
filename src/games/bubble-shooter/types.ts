@@ -1,18 +1,16 @@
 /**
  * Bubble Shooter — domain types.
- * Kept tiny: only what gameplay actually needs.
  */
 
-/** Soft, calming palette — 5 colors keeps matches frequent (satisfying). */
 export type BubbleColor = "rose" | "peach" | "sand" | "sage" | "sky";
 
+export type GameMode = "relax" | "classic" | "challenge";
+
 export interface Bubble {
-  /** Hex grid row (0 = top). */
   row: number;
-  /** Hex grid column. */
   col: number;
   color: BubbleColor;
-  /** Pop animation progress 0..1, undefined when alive. */
+  /** Pop animation 0..1. */
   popping?: number;
 }
 
@@ -24,12 +22,23 @@ export interface MovingBubble {
   color: BubbleColor;
 }
 
+export interface FallingBubble {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  rot: number;
+  vrot: number;
+  color: BubbleColor;
+  life: number; // 1 → 0
+}
+
 export interface Particle {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  life: number; // 0..1, decays each frame
+  life: number;
   color: BubbleColor;
   size: number;
 }
@@ -37,15 +46,16 @@ export interface Particle {
 export type GamePhase = "aiming" | "firing" | "resolving" | "gameover";
 
 export interface GameState {
-  grid: Map<string, Bubble>; // key = `${row},${col}`
-  shooter: {
-    color: BubbleColor;
-    angle: number; // radians, -PI..0 (pointing upward hemisphere)
-  };
+  grid: Map<string, Bubble>;
+  shooter: { color: BubbleColor; angle: number };
   next: BubbleColor;
   moving: MovingBubble | null;
+  falling: FallingBubble[];
   particles: Particle[];
   phase: GamePhase;
   score: number;
+  level: number;
+  shotsSincePressure: number;
+  shake: number; // current shake intensity, decays
   aimDragging: boolean;
 }
