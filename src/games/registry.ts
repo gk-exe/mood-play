@@ -1,24 +1,38 @@
+import { lazy, type ComponentType, type LazyExoticComponent } from "react";
 import type { MoodId } from "@/features/moods/types";
 
 /**
  * Game module contract.
  *
- * Each future mini-game lives in its own folder (e.g. src/games/bubble-shooter/)
- * and exposes a default-exported React component plus metadata.
- * The shell never imports a game directly — it goes through this registry,
- * which makes lazy-loading (React.lazy) a one-line change later.
+ * Each mini-game lives in its own folder (e.g. src/games/bubble-shooter/)
+ * and exposes a default-exported React component. The shell never imports
+ * a game directly — it goes through this registry, which uses React.lazy
+ * so each game ships as its own chunk and only loads when played.
  */
 export interface GameMeta {
   id: string;
   title: string;
+  /** One-line vibe used on the mood detail card. */
+  tagline: string;
   mood: MoodId;
-  /** Lazy loader added in Phase 1.5 when the first game lands. */
-  // load: () => Promise<{ default: React.ComponentType }>;
+  /** Code-split entry. */
+  Component: LazyExoticComponent<ComponentType>;
 }
 
-/** Intentionally empty in Phase 1. Phase 1.5 will register the first game. */
-export const GAMES: readonly GameMeta[] = [];
+export const GAMES: readonly GameMeta[] = [
+  {
+    id: "bubble-shooter",
+    title: "Bubble Shooter",
+    tagline: "Pop, breathe, repeat.",
+    mood: "relax",
+    Component: lazy(() => import("./bubble-shooter")),
+  },
+] as const;
 
 export function getGamesByMood(mood: MoodId): readonly GameMeta[] {
   return GAMES.filter((g) => g.mood === mood);
+}
+
+export function getGameById(id: string): GameMeta | undefined {
+  return GAMES.find((g) => g.id === id);
 }
