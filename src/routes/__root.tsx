@@ -83,13 +83,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "A calm mobile gaming hub. Pick a mood, tap, and instantly play.",
       },
-      { property: "og:title", content: "Mood Hub" },
+      { property: "og:title", content: "Mood Hub — play how you feel" },
       {
         property: "og:description",
         content: "Pick a mood, tap, and instantly play.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Mood Hub — play how you feel" },
+      { name: "description", content: "Mood Play is a mobile gaming platform offering instant access to mini-games based on user mood." },
+      { property: "og:description", content: "Mood Play is a mobile gaming platform offering instant access to mini-games based on user mood." },
+      { name: "twitter:description", content: "Mood Play is a mobile gaming platform offering instant access to mini-games based on user mood." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d4c785ae-f9d2-4ef5-a948-42944bc68d08/id-preview-e2d446e7--aaa571ef-56ff-4214-9532-747f9b541e15.lovable.app-1779888483560.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d4c785ae-f9d2-4ef5-a948-42944bc68d08/id-preview-e2d446e7--aaa571ef-56ff-4214-9532-747f9b541e15.lovable.app-1779888483560.png" },
     ],
     links: [
       {
