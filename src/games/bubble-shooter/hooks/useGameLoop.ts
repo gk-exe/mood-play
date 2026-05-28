@@ -203,7 +203,8 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
       alpha = 1,
       scale = 1,
       rot = 0,
-      glow = 0.55,
+      /** Selective glow. 0 at rest, lifted only for impact/popping/shooter. */
+      glow = 0,
     ) => {
       const c = COLOR_MAP[color];
       const r = BUBBLE_RADIUS * scale;
@@ -212,39 +213,49 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
       if (rot) ctx.rotate(rot);
       ctx.globalAlpha = alpha;
 
-      // Outer neon halo
+      // Soft halo — only when explicitly requested (impact / shooter pulse).
       if (glow > 0) {
-        const haloR = r * 1.9;
-        const halo = ctx.createRadialGradient(0, 0, r * 0.6, 0, 0, haloR);
-        halo.addColorStop(0, `${c.glow}aa`);
+        const haloR = r * 1.7;
+        const halo = ctx.createRadialGradient(0, 0, r * 0.7, 0, 0, haloR);
+        halo.addColorStop(0, `${c.glow}66`);
         halo.addColorStop(1, `${c.glow}00`);
         ctx.fillStyle = halo;
-        ctx.globalAlpha = alpha * glow;
+        ctx.globalAlpha = alpha * glow * 0.7;
         ctx.beginPath();
         ctx.arc(0, 0, haloR, 0, Math.PI * 2);
         ctx.fill();
         ctx.globalAlpha = alpha;
       }
 
-      // Body
-      const grd = ctx.createRadialGradient(-r * 0.4, -r * 0.5, r * 0.1, 0, 0, r);
+      // Soft drop shadow — gives premium-casual depth without bloom.
+      ctx.fillStyle = "rgba(0,0,0,0.25)";
+      ctx.beginPath();
+      ctx.arc(0, r * 0.18, r * 0.95, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Body — saturated solid with gentle top-lit gradient.
+      const grd = ctx.createRadialGradient(-r * 0.35, -r * 0.45, r * 0.15, 0, 0, r);
       grd.addColorStop(0, c.shine);
-      grd.addColorStop(0.55, c.fill);
+      grd.addColorStop(0.5, c.fill);
       grd.addColorStop(1, c.rim);
       ctx.fillStyle = grd;
       ctx.beginPath();
       ctx.arc(0, 0, r, 0, Math.PI * 2);
       ctx.fill();
 
-      // Rim
+      // Crisp rim — restores candy weight.
       ctx.strokeStyle = c.rim;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.2;
       ctx.stroke();
 
-      // Inner highlight
-      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      // Compact specular highlight.
+      ctx.fillStyle = "rgba(255,255,255,0.55)";
       ctx.beginPath();
-      ctx.arc(-r * 0.35, -r * 0.42, r * 0.24, 0, Math.PI * 2);
+      ctx.arc(-r * 0.35, -r * 0.4, r * 0.22, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.beginPath();
+      ctx.arc(-r * 0.38, -r * 0.44, r * 0.09, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     };
@@ -292,12 +303,12 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
 
     // Mode-themed drifting backdrop dots, drawn on canvas for atmosphere.
     type Dot = { x: number; y: number; r: number; vy: number; alpha: number; hue: 0 | 1 };
-    const dots: Dot[] = Array.from({ length: 24 }, () => ({
+    const dots: Dot[] = Array.from({ length: 14 }, () => ({
       x: Math.random() * CANVAS_WIDTH,
       y: Math.random() * CANVAS_HEIGHT,
-      r: 1 + Math.random() * 2.5,
-      vy: -0.15 - Math.random() * 0.25,
-      alpha: 0.15 + Math.random() * 0.35,
+      r: 1 + Math.random() * 2,
+      vy: -0.1 - Math.random() * 0.18,
+      alpha: 0.08 + Math.random() * 0.18,
       hue: Math.random() < 0.5 ? 0 : 1,
     }));
 
@@ -309,42 +320,42 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Soft accent glow center-top
+      // Single subtle accent glow above the play area — quiet, premium.
       const halo = ctx.createRadialGradient(
         CANVAS_WIDTH / 2,
-        -40,
+        -60,
         20,
         CANVAS_WIDTH / 2,
-        -40,
-        320,
+        -60,
+        340,
       );
-      halo.addColorStop(0, `${theme.accent}55`);
+      halo.addColorStop(0, `${theme.accent}26`);
       halo.addColorStop(1, `${theme.accent}00`);
       ctx.fillStyle = halo;
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Bottom accent2 glow under shooter
+      // Soft warm pad under shooter — much gentler than before.
       const halo2 = ctx.createRadialGradient(
         SHOOTER_X,
-        CANVAS_HEIGHT + 20,
+        CANVAS_HEIGHT + 10,
         20,
         SHOOTER_X,
-        CANVAS_HEIGHT + 20,
-        260,
+        CANVAS_HEIGHT + 10,
+        220,
       );
-      halo2.addColorStop(0, `${theme.accent2}44`);
+      halo2.addColorStop(0, `${theme.accent2}1f`);
       halo2.addColorStop(1, `${theme.accent2}00`);
       ctx.fillStyle = halo2;
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Drifting particles
+      // Drifting dust motes — reduced count + opacity to stop eye fatigue.
       for (const d of dots) {
         d.y += d.vy;
         if (d.y < -10) {
           d.y = CANVAS_HEIGHT + 10;
           d.x = Math.random() * CANVAS_WIDTH;
         }
-        ctx.globalAlpha = d.alpha;
+        ctx.globalAlpha = d.alpha * 0.55;
         ctx.fillStyle = d.hue === 0 ? theme.accent : theme.accent2;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
