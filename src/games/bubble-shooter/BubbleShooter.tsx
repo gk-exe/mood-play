@@ -138,12 +138,12 @@ function GameView({
         background: `radial-gradient(120% 80% at 50% 0%, ${cfg.theme.bgTop}, ${cfg.theme.bgBottom})`,
       }}
     >
-      {/* Outer mode-tinted aura behind the canvas */}
+      {/* Outer mode-tinted aura behind the canvas — quiet, premium */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 mood-halo"
         style={{
-          background: `radial-gradient(40% 30% at 50% 8%, ${cfg.theme.accent}44, transparent 70%), radial-gradient(50% 35% at 50% 100%, ${cfg.theme.accent2}33, transparent 70%)`,
+          background: `radial-gradient(40% 30% at 50% 8%, ${cfg.theme.accent}26, transparent 70%), radial-gradient(50% 35% at 50% 100%, ${cfg.theme.accent2}1f, transparent 70%)`,
         }}
       />
 
@@ -156,7 +156,7 @@ function GameView({
           touchAction: "none",
           maxWidth: "100%",
           maxHeight: "100dvh",
-          boxShadow: `0 30px 80px -30px ${cfg.theme.accent}cc, 0 0 0 1px ${cfg.theme.accent}22`,
+          boxShadow: `0 24px 60px -28px ${cfg.theme.accent}88, 0 0 0 1px ${cfg.theme.accent}1a`,
         }}
       />
 
