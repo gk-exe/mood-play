@@ -377,34 +377,34 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
 
       drawBackdrop();
 
-      // Combo flash rim
+      // Combo flash rim — gentler, no full-saturation outer ring.
       if (s.comboFlash > 0.01) {
         ctx.save();
-        ctx.globalAlpha = s.comboFlash * 0.6;
+        ctx.globalAlpha = s.comboFlash * 0.35;
         const rim = ctx.createRadialGradient(
           CANVAS_WIDTH / 2,
           CANVAS_HEIGHT / 2,
           CANVAS_WIDTH / 2,
           CANVAS_WIDTH / 2,
           CANVAS_HEIGHT / 2,
-          CANVAS_WIDTH * 0.9,
+          CANVAS_WIDTH * 0.95,
         );
         rim.addColorStop(0, `${theme.accent}00`);
-        rim.addColorStop(1, `${theme.accent}ff`);
+        rim.addColorStop(1, `${theme.accent}aa`);
         ctx.fillStyle = rim;
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx.restore();
       }
 
       // Ceiling
-      ctx.fillStyle = "rgba(255,255,255,0.08)";
+      ctx.fillStyle = "rgba(255,255,255,0.06)";
       ctx.fillRect(0, 0, CANVAS_WIDTH, 3);
 
-      // Grid bubbles
+      // Grid bubbles — no glow at rest; popping bubbles get a brief lift.
       for (const b of s.grid.values()) {
         const c = cellCenter(b.row, b.col);
         if (b.popping !== undefined) {
-          drawBubble(c.x, c.y, b.color, 1 - b.popping, 1 + b.popping * 0.55, 0, 0.9);
+          drawBubble(c.x, c.y, b.color, 1 - b.popping, 1 + b.popping * 0.55, 0, 0.55);
         } else {
           drawBubble(c.x, c.y, b.color);
         }
@@ -412,15 +412,15 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
 
       // Falling
       for (const f of s.falling) {
-        drawBubble(f.x, f.y, f.color, Math.max(0, f.life), 1, f.rot, 0.4);
+        drawBubble(f.x, f.y, f.color, Math.max(0, f.life), 1, f.rot, 0.15);
       }
 
-      // Particles
+      // Particles — modest bloom, scaled with life so they fade clean.
       for (const p of s.particles) {
         const col = COLOR_MAP[p.color];
         ctx.globalAlpha = Math.max(0, p.life);
         ctx.shadowColor = col.glow;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 6;
         ctx.fillStyle = col.fill;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
@@ -431,30 +431,30 @@ export function useGameLoop(mode: GameMode): UseGameLoopApi {
 
       drawAimGuide(s);
 
-      // Shooter glow pad
-      const padGrd = ctx.createRadialGradient(SHOOTER_X, SHOOTER_Y, 4, SHOOTER_X, SHOOTER_Y, 60);
-      padGrd.addColorStop(0, `${theme.accent}66`);
+      // Shooter pad — quiet ambient, not a spotlight.
+      const padGrd = ctx.createRadialGradient(SHOOTER_X, SHOOTER_Y, 4, SHOOTER_X, SHOOTER_Y, 56);
+      padGrd.addColorStop(0, `${theme.accent}33`);
       padGrd.addColorStop(1, `${theme.accent}00`);
       ctx.fillStyle = padGrd;
       ctx.beginPath();
-      ctx.arc(SHOOTER_X, SHOOTER_Y, 60, 0, Math.PI * 2);
+      ctx.arc(SHOOTER_X, SHOOTER_Y, 56, 0, Math.PI * 2);
       ctx.fill();
 
       if (s.moving) {
-        drawBubble(s.moving.x, s.moving.y, s.moving.color, 1, 1, 0, 0.75);
+        drawBubble(s.moving.x, s.moving.y, s.moving.color, 1, 1, 0, 0.45);
       } else if (s.phase === "aiming") {
-        const pulse = 1 + Math.sin(frame * 0.1) * 0.05;
-        drawBubble(SHOOTER_X, SHOOTER_Y, s.shooter.color, 1, pulse, 0, 0.85);
+        const pulse = 1 + Math.sin(frame * 0.08) * 0.035;
+        drawBubble(SHOOTER_X, SHOOTER_Y, s.shooter.color, 1, pulse, 0, 0.4);
       }
 
       // Next preview chip
       ctx.save();
-      ctx.fillStyle = "rgba(255,255,255,0.08)";
+      ctx.fillStyle = "rgba(255,255,255,0.06)";
       ctx.beginPath();
       ctx.arc(SHOOTER_X - 64, SHOOTER_Y + 6, 16, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
-      drawBubble(SHOOTER_X - 64, SHOOTER_Y + 6, s.next, 0.85, 0.7, 0, 0.3);
+      drawBubble(SHOOTER_X - 64, SHOOTER_Y + 6, s.next, 0.85, 0.7, 0, 0);
 
       // Danger line
       const dangerY = GRID_OFFSET_Y + (MAX_ROWS - 1) * ROW_HEIGHT;
