@@ -21,21 +21,26 @@ export const SHOOTER_X = CANVAS_WIDTH / 2;
 export const MIN_MATCH = 3;
 
 /**
- * Neon arcade palette. Each color has a saturated fill, a slightly darker rim,
- * a bright inner shine, and a glow color used for soft outer halos.
+ * Premium-casual palette.
+ *
+ * Tuned for long-session comfort: rich saturated bodies, gentle highlights,
+ * controlled rim contrast. No fluorescent peaks. Glow is used selectively
+ * during impact only — at rest these read as solid, satisfying candies.
+ *
+ * References: Candy Crush, Brawl Stars, Clash Royale.
  */
 export const COLOR_MAP: Record<
   BubbleColor,
   { fill: string; rim: string; shine: string; glow: string }
 > = {
-  pink: { fill: "#ff5cad", rim: "#c93f87", shine: "#ffd3ec", glow: "#ff5cad" },
-  orange: { fill: "#ff8a3d", rim: "#cc6620", shine: "#ffd9bb", glow: "#ffa861" },
-  yellow: { fill: "#ffd83d", rim: "#caa31a", shine: "#fff3b8", glow: "#ffe871" },
-  lime: { fill: "#9aff5c", rim: "#5fc227", shine: "#dcffc1", glow: "#a8ff6f" },
-  mint: { fill: "#5cffc8", rim: "#28c294", shine: "#c4ffe9", glow: "#5cffc8" },
-  cyan: { fill: "#5cd6ff", rim: "#2a9ecc", shine: "#c4eeff", glow: "#5cd6ff" },
-  violet: { fill: "#b15cff", rim: "#7d2dcc", shine: "#e1c4ff", glow: "#c47bff" },
-  coral: { fill: "#ff5c6e", rim: "#cc2f43", shine: "#ffc4cb", glow: "#ff7383" },
+  pink:   { fill: "#ec4a8a", rim: "#a72360", shine: "#ffd3e4", glow: "#ff6aa8" },
+  orange: { fill: "#f08237", rim: "#a4501a", shine: "#ffd5b3", glow: "#ff9a5c" },
+  yellow: { fill: "#f0c233", rim: "#a07a18", shine: "#fff0b8", glow: "#ffd866" },
+  lime:   { fill: "#7cc24a", rim: "#3e7d22", shine: "#d6f3bd", glow: "#9adb6a" },
+  mint:   { fill: "#3fc7a3", rim: "#1b7a64", shine: "#bff0e2", glow: "#5fd9bc" },
+  cyan:   { fill: "#3fb6db", rim: "#1c6f8c", shine: "#bfe6f2", glow: "#5cc8e8" },
+  violet: { fill: "#9466d6", rim: "#5a3399", shine: "#dccaf2", glow: "#a982e6" },
+  coral:  { fill: "#ed5e63", rim: "#a3262d", shine: "#ffcccd", glow: "#ff7a80" },
 };
 
 /** Master pool — modes sample subsets from this. */
@@ -79,6 +84,11 @@ export interface ModeConfig {
   theme: ModeTheme;
 }
 
+/**
+ * Mode labels are emotionally direct — pace + vibe in two words max.
+ * Backdrops are deep but never black-on-neon; each pairs an accent with a
+ * desaturated counterpart so the bubbles always win the visual fight.
+ */
 export const MODES: Record<GameMode, ModeConfig> = {
   "chill-pop": {
     label: "Easy Pop",
@@ -90,17 +100,17 @@ export const MODES: Record<GameMode, ModeConfig> = {
     pressureEvery: 0,
     pressureRamp: 0,
     theme: {
-      bgTop: "#0a1a2e",
-      bgBottom: "#06283d",
-      accent: "#5cd6ff",
-      accent2: "#5cffc8",
-      cardGradient: "from-cyan-500 via-sky-600 to-teal-500",
+      bgTop: "#142440",
+      bgBottom: "#0d1a30",
+      accent: "#5cc8e8",
+      accent2: "#5fd9bc",
+      cardGradient: "from-sky-500 via-cyan-600 to-teal-500",
       icon: "Waves",
     },
   },
   "combo-rush": {
-    label: "Chain Blast",
-    blurb: "Bigger chains, bigger pop.",
+    label: "Combo Pop",
+    blurb: "Bigger chains, bigger wins.",
     baseColors: 4,
     maxColors: 5,
     palette: ["pink", "violet", "orange", "yellow", "cyan"],
@@ -108,11 +118,11 @@ export const MODES: Record<GameMode, ModeConfig> = {
     pressureEvery: 10,
     pressureRamp: 1,
     theme: {
-      bgTop: "#1a0a2e",
-      bgBottom: "#2a0a3a",
-      accent: "#e879f9",
-      accent2: "#ff8a3d",
-      cardGradient: "from-fuchsia-500 via-purple-600 to-pink-500",
+      bgTop: "#2a1438",
+      bgBottom: "#1d0e2a",
+      accent: "#d97aae",
+      accent2: "#f09a5c",
+      cardGradient: "from-fuchsia-500 via-purple-600 to-rose-500",
       icon: "Sparkles",
     },
   },
@@ -126,11 +136,11 @@ export const MODES: Record<GameMode, ModeConfig> = {
     pressureEvery: 7,
     pressureRamp: 1,
     theme: {
-      bgTop: "#0a1f10",
-      bgBottom: "#0a2b1a",
-      accent: "#9aff5c",
-      accent2: "#5cd6ff",
-      cardGradient: "from-lime-400 via-emerald-500 to-cyan-500",
+      bgTop: "#13301f",
+      bgBottom: "#0d2218",
+      accent: "#9adb6a",
+      accent2: "#5cc8e8",
+      cardGradient: "from-lime-500 via-emerald-500 to-cyan-500",
       icon: "Zap",
     },
   },
@@ -144,11 +154,11 @@ export const MODES: Record<GameMode, ModeConfig> = {
     pressureEvery: 0,
     pressureRamp: 0,
     theme: {
-      bgTop: "#0a0a24",
-      bgBottom: "#160a2e",
-      accent: "#b15cff",
-      accent2: "#5cd6ff",
-      cardGradient: "from-indigo-500 via-violet-600 to-fuchsia-500",
+      bgTop: "#1a153a",
+      bgBottom: "#120f28",
+      accent: "#a982e6",
+      accent2: "#5cc8e8",
+      cardGradient: "from-indigo-500 via-violet-500 to-fuchsia-500",
       icon: "Flame",
     },
   },
