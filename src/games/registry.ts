@@ -27,7 +27,15 @@ export const GAMES: readonly GameMeta[] = [
     mood: "chill-zone",
     Component: lazy(() => import("./bubble-shooter")),
   },
+  {
+    id: "block-puzzle",
+    title: "Block Puzzle",
+    tagline: "Drop, fit, clear. Just one more.",
+    mood: "brain-melt",
+    Component: lazy(() => import("./block-puzzle")),
+  },
 ] as const;
+
 
 export function getGamesByMood(mood: MoodId): readonly GameMeta[] {
   return GAMES.filter((g) => g.mood === mood);

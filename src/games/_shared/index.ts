@@ -7,4 +7,6 @@
  */
 export * from "./anim";
 export * from "./ArcadeHUD";
+export * from "./audio";
 export { CelebrationOverlay } from "./CelebrationOverlay";
+
