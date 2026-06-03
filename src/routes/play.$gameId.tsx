@@ -1,29 +1,42 @@
 import { Suspense } from "react";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { getGameById } from "@/games/registry";
+import { getMood } from "@/features/moods/data";
+import { ComingSoon, LoadingState } from "@/components/platform";
 
 export const Route = createFileRoute("/play/$gameId")({
   component: PlayRoute,
-  loader: ({ params }) => {
-    const game = getGameById(params.gameId);
-    if (!game) throw notFound();
-    return { game };
-  },
 });
 
 function PlayRoute() {
-  const { game } = Route.useLoaderData();
-  const Game = game.Component;
+  const { gameId } = Route.useParams();
+  const game = getGameById(gameId);
+
+  // Unknown id → generic coming-soon fallback. Never throws notFound so
+  // shared/external links never dead-end.
+  if (!game) {
+    return (
+      <ComingSoon
+        title="Unknown game"
+        shortDescription="This game isn't in the lineup yet."
+      />
+    );
+  }
+
+  if (game.comingSoon || !game.componentLoader) {
+    const mood = getMood(game.moodCategory);
+    return (
+      <ComingSoon
+        title={game.title}
+        shortDescription={game.shortDescription}
+        accent={mood?.accent}
+      />
+    );
+  }
+
+  const Game = game.componentLoader;
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-[100dvh] w-full items-center justify-center bg-app">
-          <div className="h-2 w-24 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-1/2 animate-pulse rounded-full bg-fuchsia-400" />
-          </div>
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingState />}>
       <Game />
     </Suspense>
   );

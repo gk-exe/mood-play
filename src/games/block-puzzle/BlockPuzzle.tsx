@@ -49,7 +49,7 @@ export function BlockPuzzle() {
         cleared={api.cleared}
         gameOver={api.gameOver}
         soundOn={api.soundOn}
-        onBack={() => navigate({ to: "/mood/$moodId", params: { moodId: "brain-melt" } })}
+        onBack={() => navigate({ to: "/mood/$moodId", params: { moodId: "brain-boost" } })}
         onRestart={api.restart}
         onToggleSound={api.toggleSound}
       />

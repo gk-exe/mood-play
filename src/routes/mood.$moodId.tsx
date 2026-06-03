@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Play } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { getMood } from "@/features/moods/data";
-import { getGamesByMood } from "@/games/registry";
+import { getGamesByMood, getFeaturedGame } from "@/games/registry";
+import { FeaturedGameCard, GameCard, EmptyState } from "@/components/platform";
 
 export const Route = createFileRoute("/mood/$moodId")({
   component: MoodDetail,
@@ -16,11 +17,12 @@ export const Route = createFileRoute("/mood/$moodId")({
 function MoodDetail() {
   const { mood } = Route.useLoaderData();
   const games = getGamesByMood(mood.id);
+  const featured = getFeaturedGame(mood.id);
+  const rest = games.filter((g) => g.id !== featured?.id);
 
   return (
     <AppShell>
       <div className="relative min-h-[100dvh] bg-app">
-        {/* Themed hero with animated halo */}
         <header
           className={`relative overflow-hidden bg-gradient-to-br px-6 pb-12 pt-6 ${mood.gradient}`}
         >
@@ -61,54 +63,30 @@ function MoodDetail() {
         </header>
 
         <main className="flex-1 px-5 py-8">
+          {featured ? (
+            <div className="mb-6">
+              <FeaturedGameCard game={featured} />
+            </div>
+          ) : null}
+
           <div className="mb-4 flex items-center justify-between">
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50">
-              Pick your game
+              More in this mood
             </div>
-            <div className="text-[11px] text-white/40">{games.length} live</div>
+            <div className="text-[11px] text-white/40">{games.length} total</div>
           </div>
 
-          {games.length === 0 ? (
-            <div
-              className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-16 text-center"
-              style={{ boxShadow: `0 0 40px -10px ${mood.accent}55 inset` }}
-            >
-              <div
-                className="mx-auto mb-3 h-2 w-2 rounded-full hub-pulse"
-                style={{ backgroundColor: mood.accent, boxShadow: `0 0 18px ${mood.accent}` }}
-              />
-              <p className="text-sm text-white/60">New drops loading…</p>
-            </div>
+          {rest.length === 0 ? (
+            <EmptyState
+              accent={mood.accent}
+              title="New drops loading…"
+              description="Fresh games for this mood are on the way."
+            />
           ) : (
             <ul className="space-y-3">
-              {games.map((g, i) => (
-                <li key={g.id} className="mood-enter" style={{ animationDelay: `${i * 80}ms` }}>
-                  <Link
-                    to="/play/$gameId"
-                    params={{ gameId: g.id }}
-                    className="group relative flex items-center justify-between overflow-hidden rounded-2xl bg-white/[0.04] p-5 ring-1 ring-white/10 backdrop-blur transition active:scale-[0.98]"
-                    style={{ boxShadow: `0 10px 30px -18px ${mood.accent}aa` }}
-                  >
-                    <div
-                      className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full opacity-50 blur-2xl"
-                      style={{ background: mood.accent }}
-                    />
-                    <div className="relative">
-                      <div className="text-base font-semibold tracking-tight text-white">
-                        {g.title}
-                      </div>
-                      <div className="mt-0.5 text-xs text-white/60">{g.tagline}</div>
-                    </div>
-                    <span
-                      className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-black transition group-hover:scale-105"
-                      style={{
-                        background: mood.accent,
-                        boxShadow: `0 0 24px ${mood.accent}`,
-                      }}
-                    >
-                      <Play className="h-4 w-4 fill-current" />
-                    </span>
-                  </Link>
+              {rest.map((g, i) => (
+                <li key={g.id}>
+                  <GameCard game={g} index={i} />
                 </li>
               ))}
             </ul>
