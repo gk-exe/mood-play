@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayGameIdRouteImport } from './routes/play.$gameId'
 import { Route as MoodMoodIdRouteImport } from './routes/mood.$moodId'
+import { Route as DevDocsRouteImport } from './routes/dev.docs'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,33 +29,42 @@ const MoodMoodIdRoute = MoodMoodIdRouteImport.update({
   path: '/mood/$moodId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevDocsRoute = DevDocsRouteImport.update({
+  id: '/dev/docs',
+  path: '/dev/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dev/docs': typeof DevDocsRoute
   '/mood/$moodId': typeof MoodMoodIdRoute
   '/play/$gameId': typeof PlayGameIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dev/docs': typeof DevDocsRoute
   '/mood/$moodId': typeof MoodMoodIdRoute
   '/play/$gameId': typeof PlayGameIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dev/docs': typeof DevDocsRoute
   '/mood/$moodId': typeof MoodMoodIdRoute
   '/play/$gameId': typeof PlayGameIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/mood/$moodId' | '/play/$gameId'
+  fullPaths: '/' | '/dev/docs' | '/mood/$moodId' | '/play/$gameId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/mood/$moodId' | '/play/$gameId'
-  id: '__root__' | '/' | '/mood/$moodId' | '/play/$gameId'
+  to: '/' | '/dev/docs' | '/mood/$moodId' | '/play/$gameId'
+  id: '__root__' | '/' | '/dev/docs' | '/mood/$moodId' | '/play/$gameId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DevDocsRoute: typeof DevDocsRoute
   MoodMoodIdRoute: typeof MoodMoodIdRoute
   PlayGameIdRoute: typeof PlayGameIdRoute
 }
@@ -82,14 +92,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoodMoodIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dev/docs': {
+      id: '/dev/docs'
+      path: '/dev/docs'
+      fullPath: '/dev/docs'
+      preLoaderRoute: typeof DevDocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DevDocsRoute: DevDocsRoute,
   MoodMoodIdRoute: MoodMoodIdRoute,
   PlayGameIdRoute: PlayGameIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
