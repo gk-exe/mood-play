@@ -130,9 +130,9 @@ export const GAMES: readonly GameMeta[] = [
     shortDescription: "See it. Hold it. Match it.",
     moodCategory: "brain-boost",
     difficulty: "easy",
-    status: "coming-soon",
+    status: "live",
     estimatedPlayTime: 5,
-    componentLoader: null,
+    componentLoader: lazy(() => import("./memory-match")),
   }),
   game({
     id: "word-puzzle",
