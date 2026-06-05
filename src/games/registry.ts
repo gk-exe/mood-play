@@ -1,4 +1,5 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from "react";
+
 import type { MoodId } from "@/features/moods/types";
 
 /**
