@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, Lock, Play } from "lucide-react";
+import { Clock, Lock, Play, Trophy } from "lucide-react";
 import type { GameMeta } from "@/games/registry";
 import { getMood } from "@/features/moods/data";
+import { readBest } from "@/features/player/useGameStats";
 
 interface GameCardProps {
   game: GameMeta;
@@ -18,6 +19,7 @@ export function GameCard({ game, index = 0 }: GameCardProps) {
   const mood = getMood(game.moodCategory);
   const accent = mood?.accent ?? "#a78bfa";
   const locked = game.comingSoon;
+  const best = locked ? null : readBest(game.id);
 
   return (
     <Link
@@ -49,11 +51,19 @@ export function GameCard({ game, index = 0 }: GameCardProps) {
           <p className="mt-0.5 truncate text-xs text-white/60">
             {game.shortDescription}
           </p>
-          <div className="mt-2 flex items-center gap-3 text-[10px] uppercase tracking-[0.18em] text-white/40">
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] uppercase tracking-[0.18em] text-white/40">
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3 w-3" /> {game.estimatedPlayTime}m
             </span>
             <span>{game.difficulty}</span>
+            {best != null ? (
+              <span
+                className="inline-flex items-center gap-1 font-bold"
+                style={{ color: accent }}
+              >
+                <Trophy className="h-3 w-3" /> {best.toLocaleString()}
+              </span>
+            ) : null}
           </div>
         </div>
         <span
