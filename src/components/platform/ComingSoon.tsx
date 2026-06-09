@@ -3,6 +3,7 @@ import { ArrowLeft, Bell, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { GAMES } from "@/games/registry";
 import { getMood } from "@/features/moods/data";
+import { FeedbackBar } from "@/components/platform/FeedbackBar";
 
 interface ComingSoonProps {
   title: string;
