@@ -13,6 +13,7 @@ export { ComingSoon } from "./ComingSoon";
 export { EmptyState } from "./EmptyState";
 export { LoadingState } from "./LoadingState";
 export { ErrorState } from "./ErrorState";
+export { FeedbackBar } from "./FeedbackBar";
 // Game-side HUD primitives live alongside the engine internals; re-export
 // here for shell-level discoverability.
 export { CornerChip, IconButton, StatTile, PrimaryCTA, GhostButton } from "@/games/_shared/ArcadeHUD";

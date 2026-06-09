@@ -9,11 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SuggestRouteImport } from './routes/suggest'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayGameIdRouteImport } from './routes/play.$gameId'
 import { Route as MoodMoodIdRouteImport } from './routes/mood.$moodId'
 import { Route as DevDocsRouteImport } from './routes/dev.docs'
 
+const SuggestRoute = SuggestRouteImport.update({
+  id: '/suggest',
+  path: '/suggest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +55,18 @@ const DevDocsRoute = DevDocsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/roadmap': typeof RoadmapRoute
+  '/suggest': typeof SuggestRoute
   '/dev/docs': typeof DevDocsRoute
   '/mood/$moodId': typeof MoodMoodIdRoute
   '/play/$gameId': typeof PlayGameIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/roadmap': typeof RoadmapRoute
+  '/suggest': typeof SuggestRoute
   '/dev/docs': typeof DevDocsRoute
   '/mood/$moodId': typeof MoodMoodIdRoute
   '/play/$gameId': typeof PlayGameIdRoute
@@ -50,20 +74,48 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/roadmap': typeof RoadmapRoute
+  '/suggest': typeof SuggestRoute
   '/dev/docs': typeof DevDocsRoute
   '/mood/$moodId': typeof MoodMoodIdRoute
   '/play/$gameId': typeof PlayGameIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dev/docs' | '/mood/$moodId' | '/play/$gameId'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/roadmap'
+    | '/suggest'
+    | '/dev/docs'
+    | '/mood/$moodId'
+    | '/play/$gameId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dev/docs' | '/mood/$moodId' | '/play/$gameId'
-  id: '__root__' | '/' | '/dev/docs' | '/mood/$moodId' | '/play/$gameId'
+  to:
+    | '/'
+    | '/about'
+    | '/roadmap'
+    | '/suggest'
+    | '/dev/docs'
+    | '/mood/$moodId'
+    | '/play/$gameId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/roadmap'
+    | '/suggest'
+    | '/dev/docs'
+    | '/mood/$moodId'
+    | '/play/$gameId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  RoadmapRoute: typeof RoadmapRoute
+  SuggestRoute: typeof SuggestRoute
   DevDocsRoute: typeof DevDocsRoute
   MoodMoodIdRoute: typeof MoodMoodIdRoute
   PlayGameIdRoute: typeof PlayGameIdRoute
@@ -71,6 +123,27 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/suggest': {
+      id: '/suggest'
+      path: '/suggest'
+      fullPath: '/suggest'
+      preLoaderRoute: typeof SuggestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +177,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  RoadmapRoute: RoadmapRoute,
+  SuggestRoute: SuggestRoute,
   DevDocsRoute: DevDocsRoute,
   MoodMoodIdRoute: MoodMoodIdRoute,
   PlayGameIdRoute: PlayGameIdRoute,
