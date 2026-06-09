@@ -80,11 +80,47 @@ function Home() {
 
           <ComingSoonRail games={SOON_GAMES} />
 
+          <nav
+            aria-label="Vibe Games shortcuts"
+            className="grid grid-cols-3 gap-2 pt-1"
+          >
+            <NavTile to="/suggest" icon={<Lightbulb className="h-4 w-4" />} label="Suggest" hint="A game" />
+            <NavTile to="/roadmap" icon={<Map className="h-4 w-4" />} label="Roadmap" hint="What's next" />
+            <NavTile to="/about" icon={<Info className="h-4 w-4" />} label="About" hint="The vibe" />
+          </nav>
+
           <p className="pt-2 text-center text-[11px] uppercase tracking-[0.22em] text-white/30">
             built for one-handed play · no accounts · no ads
           </p>
         </main>
       </div>
     </AppShell>
+  );
+}
+
+function NavTile({
+  to,
+  icon,
+  label,
+  hint,
+}: {
+  to: "/suggest" | "/roadmap" | "/about";
+  icon: React.ReactNode;
+  label: string;
+  hint: string;
+}) {
+  return (
+    <Link
+      to={to}
+      className="group rounded-2xl bg-white/[0.04] p-3 ring-1 ring-white/10 transition active:scale-[0.97] hover:bg-white/[0.07]"
+    >
+      <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-white/80 ring-1 ring-white/10">
+        {icon}
+      </span>
+      <div className="mt-2 text-[12px] font-bold uppercase tracking-[0.18em] text-white">
+        {label}
+      </div>
+      <div className="text-[10px] text-white/50">{hint}</div>
+    </Link>
   );
 }
