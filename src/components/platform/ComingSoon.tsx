@@ -120,9 +120,26 @@ export function ComingSoon({
             </div>
           ) : null}
 
+          {gameId ? (
+            <div className="relative mt-8 w-full max-w-xs">
+              <div className="mb-2 text-center text-[10px] font-bold uppercase tracking-[0.22em] text-white/45">
+                Excited for this one?
+              </div>
+              <FeedbackBar gameId={gameId} accent={accent} />
+            </div>
+          ) : null}
+
+          <Link
+            to="/suggest"
+            className="relative mt-6 inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/75 ring-1 ring-white/10 transition active:scale-95"
+          >
+            <Sparkles className="h-3 w-3" style={{ color: accent }} />
+            Suggest what we build next
+          </Link>
+
           <Link
             to="/"
-            className="relative mt-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 underline-offset-4 hover:underline"
+            className="relative mt-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 underline-offset-4 hover:underline"
           >
             Back to hub
           </Link>
