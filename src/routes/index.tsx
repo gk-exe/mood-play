@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { Lightbulb, Map, Info } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { MOODS } from "@/features/moods/data";
 import { MoodCard } from "@/features/moods/MoodCard";
