@@ -4,10 +4,18 @@ import { getGameById } from "@/games/registry";
 import { getMood } from "@/features/moods/data";
 import { ComingSoon, LoadingState } from "@/components/platform";
 import { recordPlay } from "@/features/player/useGameStats";
+import {
+  getTodayChallenge,
+  markDailyCompleted,
+  markDailyStarted,
+} from "@/features/daily/challenge";
 
 export const Route = createFileRoute("/play/$gameId")({
   component: PlayRoute,
 });
+
+/** Minimum dwell time before we trust that "the daily was attempted". */
+const DAILY_COMPLETION_DWELL_MS = 30_000;
 
 function PlayRoute() {
   const { gameId } = Route.useParams();
@@ -19,6 +27,20 @@ function PlayRoute() {
     if (game && !game.comingSoon && game.componentLoader) {
       recordPlay(game.id);
     }
+  }, [game]);
+
+  // Daily challenge — if this game IS today's pick, mark started immediately
+  // and mark completed after a short dwell. Keeps the contract simple: the
+  // user showed up and played, the home card celebrates them.
+  useEffect(() => {
+    if (!game || game.comingSoon || !game.componentLoader) return;
+    const today = getTodayChallenge();
+    if (!today || today.game.id !== game.id) return;
+    markDailyStarted();
+    const id = window.setTimeout(() => {
+      markDailyCompleted(game.id);
+    }, DAILY_COMPLETION_DWELL_MS);
+    return () => window.clearTimeout(id);
   }, [game]);
 
   if (!game) {
