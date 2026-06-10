@@ -7,6 +7,7 @@ import { GAMES, getGameById } from "@/games/registry";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ContinuePlayingRow } from "@/components/home/ContinuePlayingRow";
 import { ComingSoonRail } from "@/components/home/ComingSoonRail";
+import { DailyChallengeCard } from "@/components/home/DailyChallengeCard";
 import { useRecentlyPlayed } from "@/features/player/useGameStats";
 
 export const Route = createFileRoute("/")({
@@ -58,6 +59,8 @@ function Home() {
         </header>
 
         <main className="relative flex-1 space-y-8 px-5 pb-14 pt-6">
+          <DailyChallengeCard />
+
           {hero ? <HomeHero game={hero} /> : null}
 
           {recent.length > 0 ? <ContinuePlayingRow games={recent} /> : null}
