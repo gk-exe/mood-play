@@ -8,6 +8,7 @@ import { HomeHero } from "@/components/home/HomeHero";
 import { ContinuePlayingRow } from "@/components/home/ContinuePlayingRow";
 import { ComingSoonRail } from "@/components/home/ComingSoonRail";
 import { DailyChallengeCard } from "@/components/home/DailyChallengeCard";
+import { PlatformStats } from "@/components/home/PlatformStats";
 import { useRecentlyPlayed } from "@/features/player/useGameStats";
 
 export const Route = createFileRoute("/")({
@@ -82,6 +83,8 @@ function Home() {
           </section>
 
           <ComingSoonRail games={SOON_GAMES} />
+
+          <PlatformStats />
 
           <nav
             aria-label="Vibe Games shortcuts"

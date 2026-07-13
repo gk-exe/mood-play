@@ -28,7 +28,7 @@ export function HomeHero({ game }: { game: GameMeta }) {
         <div className="inline-flex items-center gap-1.5 rounded-full bg-black/30 px-2.5 py-1 ring-1 ring-white/15 backdrop-blur">
           <Sparkles className="h-3 w-3 text-white" />
           <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/90">
-            Tonight's pick
+            Featured today
           </span>
         </div>
 
