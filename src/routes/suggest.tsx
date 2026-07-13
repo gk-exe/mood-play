@@ -90,8 +90,8 @@ function SuggestPage() {
             </span>
           </h1>
           <p className="mx-auto mt-2 max-w-xs text-sm text-white/60">
-            If you could add one game to Vibe Games, what would it be?
-            Tell us — we read every one.
+            Your idea could become the next game on Vibe Games.
+            Every submission is read during our early-access phase.
           </p>
         </header>
 
