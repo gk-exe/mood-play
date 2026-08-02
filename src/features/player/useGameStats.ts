@@ -57,7 +57,9 @@ export function recordPlay(gameId: string) {
 const BEST_KEY_MAP: Record<string, string> = {
   "bubble-shooter": "bubble-shooter:best:v2",
   "block-puzzle": "block-puzzle:best:v1",
+  twenty48: "twenty48:best:v1",
 };
+
 
 export function readBest(gameId: string): number | null {
   try {
