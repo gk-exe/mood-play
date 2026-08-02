@@ -12,7 +12,9 @@ import { createBoard, highestTile, isGameOver, move, spawnTile } from "../utils/
  * each move is far cheaper than a RAF loop and gives us free CSS transitions.
  */
 export function use2048() {
-  const [tiles, setTiles] = useState<Tile[]>(() => createBoard());
+  // Starts empty: the board is randomized on mount so SSR and the first
+  // client render agree (Math.random() during render = hydration mismatch).
+  const [tiles, setTiles] = useState<Tile[]>([]);
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
   const [phase, setPhase] = useState<GamePhase>("intro");
@@ -32,6 +34,7 @@ export function use2048() {
     } catch {
       /* noop */
     }
+    setTiles(createBoard());
     const id = window.setTimeout(() => setPhase("playing"), 620);
     return () => window.clearTimeout(id);
   }, []);
