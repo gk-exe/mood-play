@@ -145,6 +145,17 @@ export const GAMES: readonly GameMeta[] = [
     componentLoader: null,
   }),
   game({
+    id: "twenty48",
+    slug: "2048",
+    title: "2048",
+    shortDescription: "Slide, merge, chase the big tile.",
+    moodCategory: "satisfaction-lab",
+    difficulty: "medium",
+    status: "live",
+    estimatedPlayTime: 6,
+    componentLoader: lazy(() => import("./twenty48")),
+  }),
+  game({
     id: "reaction-challenge",
     title: "Reaction Challenge",
     shortDescription: "Pure speed. No second chances.",
@@ -154,6 +165,7 @@ export const GAMES: readonly GameMeta[] = [
     estimatedPlayTime: 2,
     componentLoader: null,
   }),
+
 ] as const;
 
 export function getGamesByMood(mood: MoodId): readonly GameMeta[] {
