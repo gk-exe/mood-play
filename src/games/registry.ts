@@ -80,9 +80,9 @@ export const GAMES: readonly GameMeta[] = [
     shortDescription: "Hold the line. Outlast the horde.",
     moodCategory: "action-rush",
     difficulty: "hard",
-    status: "coming-soon",
-    estimatedPlayTime: 10,
-    componentLoader: null,
+    status: "live",
+    estimatedPlayTime: 5,
+    componentLoader: lazy(() => import("./zombie-survival")),
   }),
   game({
     id: "endless-runner",
