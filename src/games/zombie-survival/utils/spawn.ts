@@ -34,13 +34,11 @@ export function tierPoolFor(wave: number): number {
   return 1;
 }
 
-/** Pick a point just outside the visible rect, on a random edge. */
-export function edgePoint(w: number, h: number, pad = 40): { x: number; y: number } {
-  const side = Math.floor(Math.random() * 4);
-  if (side === 0) return { x: Math.random() * w, y: -pad };
-  if (side === 1) return { x: w + pad, y: Math.random() * h };
-  if (side === 2) return { x: Math.random() * w, y: h + pad };
-  return { x: -pad, y: Math.random() * h };
+/** Pick a point on a ring just outside the visible rect — fair reaction time. */
+export function edgePoint(w: number, h: number, pad = 60): { x: number; y: number } {
+  const a = Math.random() * Math.PI * 2;
+  const r = Math.hypot(w, h) / 2 + pad;
+  return { x: w / 2 + Math.cos(a) * r, y: h / 2 + Math.sin(a) * r };
 }
 
 export function makeEnemy(
