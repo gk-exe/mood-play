@@ -120,9 +120,9 @@ export const GAMES: readonly GameMeta[] = [
     shortDescription: "Blink. Tap. Survive.",
     moodCategory: "quick-hits",
     difficulty: "medium",
-    status: "coming-soon",
+    status: "live",
     estimatedPlayTime: 2,
-    componentLoader: null,
+    componentLoader: lazy(() => import("./tap-reflex")),
   }),
   game({
     id: "memory-match",

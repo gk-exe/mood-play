@@ -17,9 +17,12 @@ import {
 export function DailyChallengeCard() {
   const challenge = getTodayChallenge();
   const status = useDailyStatus();
-  const [countdown, setCountdown] = useState(() => formatCountdown(msUntilTomorrow()));
+  // Time-dependent — computed after mount only, so SSR markup and the first
+  // client render stay identical (no hydration mismatch).
+  const [countdown, setCountdown] = useState<string | null>(null);
 
   useEffect(() => {
+    setCountdown(formatCountdown(msUntilTomorrow()));
     const id = window.setInterval(() => {
       setCountdown(formatCountdown(msUntilTomorrow()));
     }, 60_000);
@@ -88,7 +91,7 @@ export function DailyChallengeCard() {
             ) : (
               <span className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55 ring-1 ring-white/10">
                 <Flame className="h-3 w-3" style={{ color: accent }} />
-                Resets {countdown}
+                Resets{countdown ? ` ${countdown}` : " soon"}
               </span>
             )}
           </div>
