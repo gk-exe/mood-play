@@ -77,7 +77,8 @@ export const GAMES: readonly GameMeta[] = [
   game({
     id: "survival-rush",
     title: "Survival Rush",
-    shortDescription: "Hold the line. Outlast the horde.",
+    shortDescription:
+      "Survive the incoming waves and see how long you can last.",
     moodCategory: "action-rush",
     difficulty: "hard",
     status: "live",
