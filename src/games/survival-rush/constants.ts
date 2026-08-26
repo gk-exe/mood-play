@@ -3,7 +3,7 @@ export const ACCENT = "#e879f9";
 export const ACCENT_SECONDARY = "#a78bfa";
 export const DANGER = "#fb7185";
 
-export const STORAGE_KEY = "zombie-survival:best:v1";
+export const STORAGE_KEY = "survival-rush:best:v1";
 
 /** Player turret. */
 export const PLAYER_R = 16;

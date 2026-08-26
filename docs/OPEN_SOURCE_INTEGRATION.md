@@ -68,7 +68,7 @@ respected, back-to-home works from every state.
 | Game | Source project | Author | License | What we took | What we rebuilt |
 | --- | --- | --- | --- | --- | --- |
 | **2048** (`src/games/twenty48`) | [gabrielecirulli/2048](https://github.com/gabrielecirulli/2048) | Gabriele Cirulli | MIT | Slide/merge traversal rules, spawn probability (90% "2" / 10% "4"), one-merge-per-tile-per-move constraint, game-over detection | Full TypeScript rewrite as pure functions (`utils/board.ts`), React DOM renderer, Satisfaction Lab palette, corner HUD, swipe + keyboard input, procedural SFX, shared celebration overlay |
-| **Zombie Survival** (`src/games/zombie-survival`) | [KilledByAPixel/LittleJS](https://github.com/KilledByAPixel/LittleJS) arcade samples | Frank Force | MIT | Fixed-turret survival conventions: ring spawning outside the viewport, geometric difficulty ramp on spawn interval, per-wave speed ramp, tier unlocking, streak-multiplier scoring, particle-burst impact model | Everything else — engine written from scratch as a single-canvas RAF loop (`hooks/useSurvival.ts`), pure rules in `utils/spawn.ts`, Action Rush palette, corner HUD, shared `ResultModal`, procedural SFX. No source files imported |
+| **Survival Rush** (`src/games/survival-rush`) | [KilledByAPixel/LittleJS](https://github.com/KilledByAPixel/LittleJS) arcade samples | Frank Force | MIT | Fixed-turret survival conventions: ring spawning outside the viewport, geometric difficulty ramp on spawn interval, per-wave speed ramp, tier unlocking, streak-multiplier scoring, particle-burst impact model | Everything else — engine written from scratch as a single-canvas RAF loop (`hooks/useSurvival.ts`), pure rules in `utils/spawn.ts`, Action Rush palette, corner HUD, shared `ResultModal`, procedural SFX. No source files imported |
 | **Tap Reflex** (`src/games/tap-reflex`) | [Human Benchmark–style aim/reaction trainers](https://github.com/topics/aim-trainer) — closest reference: [`kirilv/aim-trainer`](https://github.com/topics/aim-trainer) family, MIT-licensed | Various (MIT) | MIT | Reaction-trainer conventions: timed session, random non-overlapping target placement, shrinking target lifetime, reaction-time-weighted scoring, accuracy + average-reaction reporting | Everything else — no files imported. DOM renderer with CSS-driven shrink rings (`Game.tsx`), pure placement/difficulty rules (`utils/spawn.ts`), ref-backed RAF loop (`hooks/useTapReflex.ts`), Quick Hits palette, corner HUD, shared `ResultModal`, procedural SFX |
 
 ### 2048 integration notes
@@ -82,7 +82,7 @@ respected, back-to-home works from every state.
 - Win state at 2048 offers **Keep going** rather than force-ending the run.
 - Best score persists under `twenty48:best:v1`.
 
-### Zombie Survival integration notes
+### Survival Rush integration notes
 
 - Mood: **Action Rush** (accent `#e879f9`) — instant-read loop: aim where you
   touch, hold to fire, survive.
@@ -100,12 +100,12 @@ respected, back-to-home works from every state.
   score pops, decaying screen shake scaled by streak, haptics on big streaks.
 - Difficulty: spawn interval `900ms × 0.985^seconds` (floor 260ms), waves
   every 20s add speed, tiers 2 and 3 unlock at waves 2 and 4.
-- Best score persists under `zombie-survival:best:v1` and is bridged into the
+- Best score persists under `survival-rush:best:v1` and is bridged into the
   home "Best" pills via `BEST_KEY_MAP`.
 
 #### Files touched
 
-- **Created:** `src/games/zombie-survival/{index.tsx,Game.tsx,constants.ts,types.ts}`,
+- **Created:** `src/games/survival-rush/{index.tsx,Game.tsx,constants.ts,types.ts}`,
   `hooks/useSurvival.ts`, `components/SurvivalHUD.tsx`, `utils/spawn.ts`
 - **Modified:** `src/games/registry.ts` (status `coming-soon` → `live`,
   lazy loader added), `src/features/player/useGameStats.ts` (`BEST_KEY_MAP`),

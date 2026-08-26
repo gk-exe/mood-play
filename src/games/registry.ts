@@ -75,14 +75,15 @@ export const GAMES: readonly GameMeta[] = [
     componentLoader: lazy(() => import("./block-puzzle")),
   }),
   game({
-    id: "zombie-survival",
-    title: "Zombie Survival",
-    shortDescription: "Hold the line. Outlast the horde.",
+    id: "survival-rush",
+    title: "Survival Rush",
+    shortDescription:
+      "Survive the incoming waves and see how long you can last.",
     moodCategory: "action-rush",
     difficulty: "hard",
     status: "live",
     estimatedPlayTime: 5,
-    componentLoader: lazy(() => import("./zombie-survival")),
+    componentLoader: lazy(() => import("./survival-rush")),
   }),
   game({
     id: "endless-runner",
