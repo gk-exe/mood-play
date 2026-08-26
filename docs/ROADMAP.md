@@ -53,7 +53,7 @@ Scoring 1 (low) → 5 (high). "Reuse" = how much of existing infra carries over.
 | 7 | Endless Runner | 4 | 5 | 5 | 4 | 3 | First game needing a real physics tick + parallax |
 | 8 | Word Puzzle | 3 | 4 | 4 | 3 | 3 | Needs a dictionary asset; treat as platform's first "data game" |
 | 9 | Chess | 5 | 4 | 5 | 5 | 2 | Needs AI engine — defer until platform has progression |
-| 10 | Zombie Survival | 5 | 5 | 4 | 5 | 2 | Most ambitious; reserve for after Endless Runner proves real-time loop |
+| 10 | Survival Rush | 5 | 5 | 4 | 5 | 2 | Most ambitious; reserve for after Endless Runner proves real-time loop |
 
 ### Recommended build order
 **3 → 4 → 6 → 5 → 7 → 8 → 9 → 10**
@@ -153,7 +153,7 @@ See `docs/CURSOR_PLAYBOOK.md`. Highlights:
 | **B — Platform Features** | 4–6 | Persistence, stats dashboard, accessibility, error boundary, theme tokens | 6 games + profile + stats route |
 | **C — Personalization** | 6–8 | Theme switcher, achievements, onboarding, Endless Runner | 7 games, 5+ themes, achievement system live |
 | **D — Community** | 8–10 | Lovable Cloud sync, leaderboards, Word Puzzle | Cloud profiles, weekly leaderboards |
-| **E — Monetization** | 10–12 | Cosmetic packs, Arcade+ subscription, Chess + Zombie Survival | 10 games live, monetization soft-launched |
+| **E — Monetization** | 10–12 | Cosmetic packs, Arcade+ subscription, Chess + Survival Rush | 10 games live, monetization soft-launched |
 
 ---
 

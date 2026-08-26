@@ -58,7 +58,7 @@ const BEST_KEY_MAP: Record<string, string> = {
   "bubble-shooter": "bubble-shooter:best:v2",
   "block-puzzle": "block-puzzle:best:v1",
   twenty48: "twenty48:best:v1",
-  "zombie-survival": "zombie-survival:best:v1",
+  "survival-rush": "survival-rush:best:v1",
   "tap-reflex": "tap-reflex:best:v1",
 };
 

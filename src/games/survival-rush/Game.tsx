@@ -7,7 +7,7 @@ import { SurvivalHUD } from "./components/SurvivalHUD";
 import { useSurvival } from "./hooks/useSurvival";
 
 /**
- * Zombie Survival — Action Rush module.
+ * Survival Rush — Action Rush module.
  *
  * A fixed-turret arcade survival shooter: aim with pointer/touch, hold to
  * fire, outlast the horde. Spawn/difficulty conventions were re-derived from
@@ -15,7 +15,7 @@ import { useSurvival } from "./hooks/useSurvival";
  * all rendering, HUD, audio and ceremony use Vibe Games' shared primitives.
  * See docs/OPEN_SOURCE_INTEGRATION.md.
  */
-export function ZombieSurvival() {
+export function SurvivalRush() {
   const navigate = useNavigate();
   const api = useSurvival();
 
@@ -57,7 +57,7 @@ export function ZombieSurvival() {
             className="mt-1 text-3xl font-bold tracking-tight text-white"
             style={{ textShadow: `0 0 18px ${ACCENT}88` }}
           >
-            Zombie Survival
+            Survival Rush
           </h1>
           <p className="mt-3 max-w-[15rem] text-center text-sm leading-relaxed text-white/65">
             Aim where you touch. Hold to fire. Don&apos;t let anything reach you.

@@ -81,7 +81,7 @@ module standard in `GAME_MODULE_STANDARD.md`.
 - **Retention:** ELO progression, puzzle-of-the-day.
 - **Future:** opening trainer, async online matches.
 
-## Zombie Survival — `coming-soon`
+## Survival Rush — `coming-soon`
 - **Loop:** waves of enemies → aim/shoot → upgrade between waves → outlast.
 - **Architecture:** most ambitious; real-time loop with spawn manager, projectile pool, collision broadphase. Build only after Endless Runner proves the real-time pattern.
 - **Rendering:** top-down canvas, particle blood/dust, screen shake on hit.
