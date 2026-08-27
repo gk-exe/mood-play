@@ -157,6 +157,26 @@ export const GAMES: readonly GameMeta[] = [
     componentLoader: lazy(() => import("./twenty48")),
   }),
   game({
+    id: "snake",
+    title: "Snake",
+    shortDescription: "Swipe, eat, grow. Don't bite yourself.",
+    moodCategory: "quick-hits",
+    difficulty: "easy",
+    status: "live",
+    estimatedPlayTime: 3,
+    componentLoader: lazy(() => import("./snake")),
+  }),
+  game({
+    id: "tic-tac-toe",
+    title: "Tic-Tac-Toe",
+    shortDescription: "Three in a row. Outthink the bot.",
+    moodCategory: "brain-boost",
+    difficulty: "easy",
+    status: "live",
+    estimatedPlayTime: 2,
+    componentLoader: lazy(() => import("./tic-tac-toe")),
+  }),
+  game({
     id: "reaction-challenge",
     title: "Reaction Challenge",
     shortDescription: "Pure speed. No second chances.",
@@ -166,6 +186,7 @@ export const GAMES: readonly GameMeta[] = [
     estimatedPlayTime: 2,
     componentLoader: null,
   }),
+
 
 ] as const;
 
