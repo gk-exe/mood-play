@@ -78,12 +78,17 @@ export function readBest(gameId: string): number | null {
   }
 }
 
-/** Live-updating snapshot of the stats blob (works across tabs and in-tab). */
+/**
+ * Live-updating snapshot of the stats blob (works across tabs and in-tab).
+ * Starts empty so SSR and the first client render agree, then hydrates
+ * from localStorage after mount.
+ */
 export function useGameStats(): StatsMap {
-  const [state, setState] = useState<StatsMap>(() => safeRead());
+  const [state, setState] = useState<StatsMap>({});
 
   useEffect(() => {
     const refresh = () => setState(safeRead());
+    refresh();
     window.addEventListener("storage", refresh);
     window.addEventListener("vg:stats:changed", refresh as EventListener);
     return () => {
@@ -94,6 +99,7 @@ export function useGameStats(): StatsMap {
 
   return state;
 }
+
 
 /** Convenience: ids ordered by most-recently-played, capped. */
 export function useRecentlyPlayed(limit = 4): string[] {

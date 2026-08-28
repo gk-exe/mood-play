@@ -1,13 +1,17 @@
 /**
- * Local-only community feedback store.
+ * Community feedback store.
  *
- * No backend, no accounts. Everything lives in localStorage so users can
- * "submit" ideas and reactions today; tomorrow this module can be swapped
- * to POST to an API without touching any UI.
+ * Offline-first: everything is written to localStorage so the app works with
+ * no backend at all. When `VITE_API_BASE_URL` points at the PHP/MySQL API
+ * (see backend/README.md), submissions are additionally persisted there —
+ * failures are swallowed so the local experience never breaks.
  */
+
+import { submitFeedback, submitGameRequest } from "@/features/api/client";
 
 const IDEAS_KEY = "vg:ideas:v1";
 const REACTIONS_KEY = "vg:reactions:v1";
+
 
 export type IdeaCategory =
   | "new-game"
@@ -71,6 +75,12 @@ export function submitIdea(input: {
   };
   const next = [idea, ...getIdeas()].slice(0, 50);
   safeWrite(IDEAS_KEY, next);
+  // Fire-and-forget mirror to the PHP/MySQL backend when configured.
+  void submitGameRequest({
+    title: idea.title,
+    description: idea.description,
+    category: idea.category,
+  });
   return idea;
 }
 
@@ -91,7 +101,13 @@ export function recordReaction(
   };
   const next = [rec, ...getReactions()].slice(0, 200);
   safeWrite(REACTIONS_KEY, next);
+  void submitFeedback({
+    game_id: gameId,
+    type: reaction,
+    message: rec.note ?? "",
+  });
 }
+
 
 export const IDEA_CATEGORIES: { id: IdeaCategory; label: string }[] = [
   { id: "new-game", label: "New game" },
