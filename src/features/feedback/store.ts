@@ -75,6 +75,12 @@ export function submitIdea(input: {
   };
   const next = [idea, ...getIdeas()].slice(0, 50);
   safeWrite(IDEAS_KEY, next);
+  // Fire-and-forget mirror to the PHP/MySQL backend when configured.
+  void submitGameRequest({
+    title: idea.title,
+    description: idea.description,
+    category: idea.category,
+  });
   return idea;
 }
 
@@ -95,7 +101,13 @@ export function recordReaction(
   };
   const next = [rec, ...getReactions()].slice(0, 200);
   safeWrite(REACTIONS_KEY, next);
+  void submitFeedback({
+    game_id: gameId,
+    type: reaction,
+    message: rec.note ?? "",
+  });
 }
+
 
 export const IDEA_CATEGORIES: { id: IdeaCategory; label: string }[] = [
   { id: "new-game", label: "New game" },
