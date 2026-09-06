@@ -61,6 +61,8 @@ const BEST_KEY_MAP: Record<string, string> = {
   "survival-rush": "survival-rush:best:v1",
   "tap-reflex": "tap-reflex:best:v1",
   snake: "snake:best:v1",
+  "sorting-master": "sorting-master:best:v1",
+
 
 };
 

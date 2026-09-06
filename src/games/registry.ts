@@ -111,9 +111,9 @@ export const GAMES: readonly GameMeta[] = [
     shortDescription: "Bring order. Feel the click.",
     moodCategory: "satisfaction-lab",
     difficulty: "easy",
-    status: "coming-soon",
+    status: "live",
     estimatedPlayTime: 6,
-    componentLoader: null,
+    componentLoader: lazy(() => import("./sorting-master")),
   }),
   game({
     id: "tap-reflex",
